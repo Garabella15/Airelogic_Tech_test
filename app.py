@@ -96,4 +96,6 @@ def fetch_lyrics_of_songs():
     artist_id = search_artists(artist_name)
     lists_of_title = browse_recordings(artist_id)
     return lists_of_title
+
+fetch_lyrics_of_songs()
     

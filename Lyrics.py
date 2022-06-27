@@ -5,25 +5,32 @@ import json
 from app import fetch_lyrics_of_songs, artist_name
 
 total_words =[]
-def count_average_words_in_song():
-
-    global artist_name
-    lists_of_title = fetch_lyrics_of_songs()
+artist = artist_name
+def fetch_lyrics():
     artist = artist_name
-    url = 'https://api.lyrics.ovh/v1/{:}/{:}'
+    lists_of_title = fetch_lyrics_of_songs()
     for title in lists_of_title:
-        if artist == artist_name:
-            lyrics_dict = requests.get(url.format(artist, title)).json
-            if lyrics_dict == None:
-                print ("No lyrics found")
+
+        try:
+            url = "https://api.lyrics.ovh/v1/" + artist + "/" + title
+        
+            response = requests.get(url).json()
+            # print(response)
+        except json.decoder.JSONDecodeError:
+            print('')   
+            if response == None or response == '':
+                print("No lyrics found")
                 pass
+            else:
+    
+                lyrics = response.get("lyrics")
+                total_words.append(lyrics)
+        
+        
 
-            lyrics = lyrics_dict.get('lyrics')
-            songs = str(lyrics)
-            words = len(songs.strip().split(" "))
-        total_words.append(words)
-        title += title
+fetch_lyrics()
+total_words = " ".join(total_words)
+print(average(len(total_words.split()))) 
 
-    print(average(total_words)) 
-
-count_average_words_in_song()
+fetch_lyrics()
+# count_average_words_in_song()

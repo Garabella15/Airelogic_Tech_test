@@ -4,6 +4,8 @@ import requests
 import json
 from fuzzywuzzy import fuzz
 
+
+# setup the user_agent with to enable access to musicbrainzngs database
 musicbrainzngs.set_useragent(
     "python-musicbrainzngs", 
     "0.7.1", 
@@ -11,10 +13,11 @@ musicbrainzngs.set_useragent(
 
 )
 
+# enter name of artists
 
 artist_name = str(input('Enter a name:'))
 
-# searching the artist using the search method and output the artist_id
+#searching the artist using the search method and output the artist_id
 
 def search_artists(artist_name):
     result = musicbrainzngs.search_artists(artist=artist_name, strict=True)
@@ -32,7 +35,7 @@ def browse_recordings(artist_id):
     offset = 0
     recordings =[]
     page = 1
-    print("fetching page number %d.." % page)
+    # print("fetching page number %d.." % page)
     result = musicbrainzngs.browse_recordings(artist=artist_id, 
                         includes=["artist-credits"], limit=limit, offset=offset)
     # print(result)
@@ -57,14 +60,14 @@ def browse_recordings(artist_id):
     # cleaning data using pandas package, this to removing redundant data
         df = pd.DataFrame(recordings)
 
-    # selecting the title of songs where the artist is the primary artist 
+    # selecting the title of songs where the named artist is the primary artist 
         data = df[df['artist-credit-phrase'].str.startswith(artist_name)]
 
     # get the title of the songs
-        title = data ['title'].tolist()
+        Song_title = data ['title'].tolist()
     
     # sorted the data to remove reductant title in the data
-        title_of_song = set(title)
+        title_of_song = set(Song_title)
 
 # fuzzywuzzy package is used to remove reductant title of songs
 
@@ -85,20 +88,12 @@ def browse_recordings(artist_id):
     lists_of_titles = list(Song_title)
     return lists_of_titles
 
-# def write_to_text('lists_of_titles.txt',lists_of_titles):
-#     with open('lists_of_titles.txt', w) as f:
-#         f.write('lists_of_titles')
-    # looping over the list of titles
-    # for title in lists_of_titles:
-    #     artist =artist_name
-    #     song
 
 
 
-def count_total_words_in_songs():
+def fetch_lyrics_of_songs():
     global artist_name
     artist_id = search_artists(artist_name)
-    Song_title = browse_recordings(artist_id)
-    print(Song_title)
+    lists_of_title = browse_recordings(artist_id)
+    return lists_of_title
     
-count_total_words_in_songs()

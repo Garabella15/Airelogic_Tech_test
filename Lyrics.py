@@ -1,19 +1,29 @@
-from urllib import response
 import requests
+from numpy import average
 import json
 
-def get_lyrics():
-# specify Vairables
-    artist = 'Ariana Grande'
-    Song_title = '34+35'
-    url = 'https://api.lyrics.ovh/v1/'+ artist + '/' + Song_title
+from app import fetch_lyrics_of_songs, artist_name
 
-    # fetching lyrics
-    #def fetch_lyrics_of_song(response):
-    response = requests.get(url)
-    json_data=json.loads(response.content)
-    lyrics = json_data['lyrics']
+total_words =[]
+def count_average_words_in_song():
 
-    print(len(lyrics.strip().split(" ")))
+    global artist_name
+    lists_of_title = fetch_lyrics_of_songs()
+    artist = artist_name
+    url = 'https://api.lyrics.ovh/v1/{:}/{:}'
+    for title in lists_of_title:
+        if artist == artist_name:
+            lyrics_dict = requests.get(url.format(artist, title)).json
+            if lyrics_dict == None:
+                print ("No lyrics found")
+                pass
 
-get_lyrics()
+            lyrics = lyrics_dict.get('lyrics')
+            songs = str(lyrics)
+            words = len(songs.strip().split(" "))
+        total_words.append(words)
+        title += title
+
+    print(average(total_words)) 
+
+count_average_words_in_song()

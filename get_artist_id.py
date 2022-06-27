@@ -15,7 +15,7 @@ def search_artists():
     for artist in result['artist-list']:
             if artist['name'] == artist_name:
                 artist_id= artist.get('id')
-                print(artist_id) 
+                return artist_id 
 
 search_artists()
 

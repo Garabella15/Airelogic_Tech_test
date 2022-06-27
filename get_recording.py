@@ -2,7 +2,6 @@ import musicbrainzngs
 import pandas as pd
 import fuzzywuzzy as fuzz
 
-from app import artist_name
 
 musicbrainzngs.set_useragent(
     "python-musicbrainzngs", 
@@ -17,7 +16,7 @@ def browse_recordings(artist_id):
     offset = 0
     recordings =[]
     page = 1
-    print("fetching page number %d.." % page)
+    # print("fetching page number %d.." % page)
     result = musicbrainzngs.browse_recordings(artist=artist_id, 
                         includes=["artist-credits"], limit=limit, offset=offset)
     # print(result)
@@ -47,5 +46,26 @@ def browse_recordings(artist_id):
 
     # get the title of the songs
         Song_title = data ['title'].tolist()
-        return Song_title
+    
+    # sorted the data to remove reductant title in the data
+        title_of_song = set(Song_title)
+
+# fuzzywuzzy package is used to remove reductant title of songs
+
+    elements = list(title_of_song)
+
+    results = [[title, [], 0] for title in elements]
+
+    for (i, element) in enumerate(elements):
+        for (j, choice) in enumerate(elements[i+1:]):
+            if fuzz.ratio(element, choice) >= 90:
+                results[i][2] += 1
+                results[i][1].append(choice)
+                results[j+i+1][2] += 1
+                results[j+i+1][1].append(element)
+
+    clean_data = pd.DataFrame(results, columns=['title', 'duplicates', 'duplicate_count'])
+    Song_title = clean_data['title']
+    lists_of_titles = list(Song_title)
+    return lists_of_titles
     

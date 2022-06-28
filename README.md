@@ -6,4 +6,4 @@ the file app.py contains the function (search_artists) to retrieve the unique ID
 
 the file Lyrics.py contain a function to call the lyric.ovh API, it call the functions search_artist, browse_recording by importing from app.py
 
-requriements.txt contains all the library/ package used for run the programming.cl 
+requriements.txt contains all the library/ package used for run the programming. 

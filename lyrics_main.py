@@ -9,10 +9,9 @@ from app import fetch_lyrics_of_songs, artist_name
 # total_words =[]
 total_lyrics = {}
 def get_lyrics():
-    artist ='Ariana Grande'
+    artist = artist_name
     lists_of_title = fetch_lyrics_of_songs()
     for title in lists_of_title:
-​
         try:
             url = "https://api.lyrics.ovh/v1/" + artist + "/" + title
         

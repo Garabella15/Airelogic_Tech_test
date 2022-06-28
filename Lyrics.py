@@ -15,7 +15,6 @@ def fetch_lyrics():
             url = "https://api.lyrics.ovh/v1/" + artist + "/" + title
         
             response = requests.get(url).json()
-            # print(response)
         except json.decoder.JSONDecodeError:
             print('')   
             if response == None or response == '':

@@ -1,7 +1,7 @@
 from pprint import pp
 import requests
 import json
-from numpy import average
+import numpy as np
 
 lists_of_title =['Santa Baby', 'One Last Time (Gazzo remix)', 'Only 1', 'Tribute and Cover Songs', 'Die in Your Arms', 
                 'Tribute Songs', 'Clarity', 'imagine', 'Love Me Harder (Gregor Salto Amsterdam remix)', 
@@ -42,4 +42,4 @@ for k,v in total_lyrics.items():
     number += 1
 
 
-    print(count)
+    print(np.average(count))

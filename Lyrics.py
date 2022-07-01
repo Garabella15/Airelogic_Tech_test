@@ -36,4 +36,4 @@ for k,v in total_lyrics.items():
         count += words        
     number += 1
 
-    print(count)
+    print(average(count))
